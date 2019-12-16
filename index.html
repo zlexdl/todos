@@ -1,0 +1,75 @@
+<!doctype html>
+<html data-framework="vue">
+	<head>
+		<meta charset="utf-8">
+		<title>TODOS.8SV.TOP</title>
+		<link rel="stylesheet" href="src/css/base.css">
+		<link rel="stylesheet" href="src/css/index.css">
+		
+		<style> [v-cloak] { display: none; } </style>
+	</head>
+	<body>
+		<section class="todoapp" v-cloak>
+			<header class="header">
+				<h1>todos</h1>
+				<input class="new-todo" autofocus autocomplete="off" placeholder="What needs to be done?" v-model="newTodo" @keyup.enter="addTodo">
+			</header>
+			<section class="main" v-show="todos.length">
+				<input id="toggle-all" class="toggle-all" type="checkbox" v-model="allDone">
+				<label for="toggle-all">Mark all as complete</label>
+				<ul class="todo-list">
+					<li class="todo" v-for="todo in filteredTodos" :key="todo.id" :class="{completed: todo.completed, editing: todo == editedTodo}">
+						<div class="view">
+							<input class="toggle" type="checkbox" v-model="todo.completed">
+							<label @dblclick="editTodo(todo)">{{todo.title}}</label>
+							<button class="destroy" @click="removeTodo(todo)"></button>
+						</div>
+						<input class="edit" type="text" v-model="todo.title" v-todo-focus="todo == editedTodo" @blur="doneEdit(todo)" @keyup.enter="doneEdit(todo)" @keyup.esc="cancelEdit(todo)">
+					</li>
+				</ul>
+			</section>
+			<footer class="footer" v-show="todos.length">
+				<span class="todo-count">
+					<strong v-text="remaining"></strong> {{pluralize('item', remaining)}} left
+				</span>
+				<ul class="filters">
+					<li><a href="#/all" :class="{selected: visibility == 'all'}">All</a></li>
+					<li><a href="#/active" :class="{selected: visibility == 'active'}">Active</a></li>
+					<li><a href="#/completed" :class="{selected: visibility == 'completed'}">Completed</a></li>
+				</ul>
+				<button class="clear-completed" @click="removeCompleted" v-show="todos.length > remaining">
+					Clear completed
+				</button>
+				
+			</footer>
+			<footer class="footer" >
+				<!-- <a class="login" href="https://www.ddpurse.com/openapi/get_code?app_id=92d251abf8281c178619&redirect_uri=http://localhost:8080/index.html">login to dotwallet</a> -->
+				<a class="tx" target="_blank" v-bind:href="whatsonchain" v-show="tx">tx</a>
+				<a class="push-to-bsv"  class="push-to-bsv" @click="applyOrder()">Push to BSV </a>
+			</footer>
+		</section>
+		<footer class="info">
+			<p>Double-click to edit a todo</p>
+			<p>Written by <a href="http://evanyou.me">Evan You</a></p>
+			<p>Part of <a href="http://todomvc.com">TodoMVC</a></p>
+			<p>Builded on BSV by <a href="mailto:zlexdl@163.com">Lei Zhang</a></p>
+			
+		</footer>
+		<script src="src/js/base.js"></script>
+		<script src="src/js/hmac-sha256.js"></script>
+		<script src="src/js/hmac-md5.js"></script>
+		<script src="src/js/vuex.js"></script>
+		<script src="src/js/director.js"></script>
+		<script src="src/js/vue.js"></script>
+	
+		<script src="src/js/axios.min.js"></script>
+		
+		<script src="src/api.js"></script>
+		<script src="src/store.js"></script>
+		<script src="src/app.js"></script>
+		<script src="src/routes.js"></script>
+
+		
+
+	</body>
+</html>
